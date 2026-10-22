@@ -115,23 +115,24 @@ kbd { font:700 .72rem var(--mono); border:1px solid var(--line); border-bottom-w
 @keyframes pop { 40% { transform:scale(1.35); } }
 .heart .count { font-family:var(--mono); }
 
-/* 랜덤 탑승 버튼: 승강장 + 양쪽 터널. 마우스를 올리면 기차가 왼쪽 터널에서 나와 오른쪽 터널로 들어간다 */
-.random { position:relative; display:block; width:100%; height:5.4rem; overflow:hidden; color:var(--fg); background:var(--bg); border:2px solid var(--fg); padding:0; cursor:pointer; transition:border-color .15s; }
+/* 랜덤 탑승 버튼: 양쪽 터널 사이에만 선로. 터널·침목·기차 바퀴가 같은 바닥(--floor) 위에 선다 */
+.random { --floor:.7rem; --tw:1.75rem; --tx:.6rem; --rail:3px; --sleeper:.3rem;
+  position:relative; display:block; width:100%; height:5.4rem; overflow:hidden; color:var(--fg); background:var(--bg); border:2px solid var(--fg); padding:0; cursor:pointer; transition:border-color .15s; }
 .random:hover, .random:focus-visible { border-color:var(--bar); }
-.random .rails { position:absolute; left:0; right:0; bottom:.55rem; height:.8rem;
-  background:linear-gradient(var(--bar),var(--bar)) 0 0/100% 2px no-repeat, linear-gradient(var(--bar),var(--bar)) 0 100%/100% 2px no-repeat,
-    repeating-linear-gradient(90deg, var(--bar) 0 3px, transparent 3px 16px); }
-.random .track { position:absolute; left:1.6rem; right:1.6rem; bottom:1.3rem; height:1.5rem; overflow:hidden; }
+.random .rails, .random .track { position:absolute; left:calc(var(--tx) + var(--tw) / 2); right:calc(var(--tx) + var(--tw) / 2); }
+.random .rails { bottom:var(--floor); height:calc(var(--sleeper) + var(--rail));
+  background:linear-gradient(var(--bar),var(--bar)) 0 0/100% var(--rail) no-repeat, repeating-linear-gradient(90deg, var(--muted) 0 4px, transparent 4px 12px); }
+.random .track { bottom:calc(var(--floor) + var(--sleeper) + var(--rail)); height:1.5rem; overflow:hidden; }
 .random .train { position:absolute; left:0; bottom:0; height:1.5rem; width:auto; transform:translateX(-100%); }
 .random:hover .train, .random:focus-visible .train, .random.rolling .train { animation:rail-run 4.2s linear infinite; }
 .random.rolling .train { animation-duration:2.2s; }
 @keyframes rail-run { 0% { left:0; transform:translateX(-100%); } 80% { left:100%; transform:translateX(0); } 100% { left:100%; transform:translateX(0); } }
-.random .tunnel { position:absolute; bottom:.3rem; height:3.7rem; width:auto; }
-.random .tunnel.l { left:.35rem; } .random .tunnel.r { right:.35rem; }
-.random .txt { position:relative; z-index:1; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.2rem .6rem; height:100%; padding:0 3.6rem 2.4rem; }
-.random .label { font:700 1.05rem var(--pixel); background:var(--bg); padding:0 .4rem; }
+.random .tunnel { position:absolute; z-index:1; bottom:var(--floor); width:var(--tw); height:auto; }
+.random .tunnel.l { left:var(--tx); } .random .tunnel.r { right:var(--tx); transform:scaleX(-1); }
+.random .txt { position:relative; z-index:2; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.2rem .6rem; height:100%; padding:0 3.4rem 2.6rem; }
+.random .label { font:700 1.05rem var(--pixel); }
 .random .txt small { font-weight:700; font-size:.75rem; color:var(--muted); }
-@media (max-width:560px) { .random { height:6rem; } .random .label { font-size:.92rem; } .random .txt { padding-bottom:2.5rem; } }
+@media (max-width:560px) { .random { height:6.2rem; } .random .label { font-size:.92rem; } .random .txt { padding-bottom:2.7rem; } }
 
 /* 사이드바 */
 .side { display:grid; gap:1rem; align-content:start; }
