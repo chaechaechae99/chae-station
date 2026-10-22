@@ -338,7 +338,7 @@ footer .icon-btn { font-size:.75rem; padding:.3rem .6rem; }
     setInterval(runTrain, EVERY_MS);
   }
 
-  // 랜덤 탑승: 지금 플레이할 수 있는 게임 중 하나로 새 탭에서 출발합니다 (SOON 게임 제외).
+  // 랜덤 탑승: 지금 플레이할 수 있는 게임 중 하나를 골라, 행선지를 보여준 뒤 이 탭에서 출발합니다 (SOON 게임 제외).
   const TRAINS = [
     { name: "바다 가두리 낚시터", url: "https://chaechaechae99.github.io/seafarm-tycoon/" },
     { name: "신입사원 공항 키우기", url: "https://airport-rookie.onrender.com/" },
@@ -351,9 +351,6 @@ footer .icon-btn { font-size:.75rem; padding:.3rem .6rem; }
     let pick;
     do { pick = Math.floor(Math.random() * TRAINS.length); } while (TRAINS.length > 1 && pick === lastPick);
     lastPick = pick;
-    // 팝업 차단을 피하려고 클릭하는 순간 새 탭을 먼저 열고, 행선지를 보여준 뒤 이동합니다.
-    const tab = window.open("about:blank", "_blank");
-    if (tab) tab.opener = null;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     rolling = true; randomBtn.classList.add("rolling");
     let i = 0;
@@ -362,10 +359,11 @@ footer .icon-btn { font-size:.75rem; padding:.3rem .6rem; }
       clearInterval(spin);
       randomBtn.classList.remove("rolling");
       randomLabel.textContent = "Next Stop, " + TRAINS[pick].name + "!";
-      if (tab) tab.location.href = TRAINS[pick].url; else location.href = TRAINS[pick].url;
-      setTimeout(() => { randomLabel.textContent = "고민될 땐? 아무 열차나 탑승하기"; rolling = false; }, 2500);
-    }, reduce ? 0 : 900);
+      setTimeout(() => { location.href = TRAINS[pick].url; }, reduce ? 0 : 600);
+    }, reduce ? 0 : 1100);
   });
+
+  window.addEventListener("pageshow", () => { rolling = false; randomBtn.classList.remove("rolling"); randomLabel.textContent = "고민될 땐? 아무 열차나 탑승하기"; });
 
   // 알림
   let toastTimer;
