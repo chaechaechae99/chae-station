@@ -116,6 +116,8 @@ select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); b
 .post-actions button { font:700 .78rem var(--body); color:var(--fg); background:var(--soft); border:1px solid var(--line); padding:.3rem .7rem; cursor:pointer; }
 .post-actions .liked { border-color:var(--new); color:var(--new); }
 .board-empty, .hot-empty { margin:0; color:var(--muted); font-size:.82rem; }
+.prep { margin:.5rem 0 0 !important; }
+.prep span { display:inline-block; font:700 .72rem var(--pixel); color:var(--bg); background:var(--fg); padding:.1rem .45rem; }
 .hot-list { list-style:none; margin:0; padding:0; display:grid; gap:.1rem; }
 .hot-list button { width:100%; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.4rem; text-align:left; font:inherit; font-size:.82rem; color:var(--fg); background:transparent; border:0; border-bottom:1px dashed var(--line); padding:.35rem 0; cursor:pointer; }
 .hot-list button:hover span { text-decoration:underline; }
@@ -252,6 +254,7 @@ select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); b
       <section class="box"><h2>HOT 게시물</h2><div class="in">
         <ol id="hot-list" class="hot-list"></ol>
         <p id="hot-empty" class="hot-empty">추천을 많이 받은 글이 여기 올라와요.</p>
+        <p class="prep"><span>준비 중</span></p>
       </div></section>
     </aside>
   </div>
