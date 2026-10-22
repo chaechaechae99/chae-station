@@ -115,20 +115,23 @@ kbd { font:700 .72rem var(--mono); border:1px solid var(--line); border-bottom-w
 @keyframes pop { 40% { transform:scale(1.35); } }
 .heart .count { font-family:var(--mono); }
 
-/* 랜덤 탑승 버튼: 어두운 전광판 + 노란 네온 글씨 */
-.random { position:relative; width:100%; display:flex; align-items:center; justify-content:center; gap:.8rem; font:700 1rem var(--pixel); letter-spacing:.02em; color:#ffd84d; background:#141821; border:0; padding:1rem 1.2rem; cursor:pointer; text-shadow:0 0 6px rgba(255,216,77,.55);
-  box-shadow:inset 0 0 0 2px #2b3242, inset 0 0 0 4px #141821, inset 0 0 0 6px var(--bar), 0 4px 0 #0b0e14; transition:transform .1s, box-shadow .15s; }
-.random::before, .random::after { content:""; position:absolute; top:50%; width:.5rem; height:.5rem; margin-top:-.25rem; background:var(--bar); box-shadow:0 0 6px var(--bar); }
-.random::before { left:1rem; } .random::after { right:1rem; }
-.random:hover { transform:translateY(-1px); box-shadow:inset 0 0 0 2px #2b3242, inset 0 0 0 4px #141821, inset 0 0 0 6px #5b8cff, 0 5px 0 #0b0e14, 0 0 18px rgba(59,110,230,.45); }
-.random:active { transform:translateY(3px); box-shadow:inset 0 0 0 2px #2b3242, inset 0 0 0 4px #141821, inset 0 0 0 6px var(--bar), 0 1px 0 #0b0e14; }
-.random .dice { width:28px; height:28px; flex:none; shape-rendering:crispEdges; filter:drop-shadow(0 0 4px rgba(255,216,77,.6)); }
-.random:hover .dice { animation:roll .6s steps(4) infinite; }
-@keyframes roll { 25% { transform:rotate(90deg); } 50% { transform:rotate(180deg); } 75% { transform:rotate(270deg); } 100% { transform:rotate(360deg); } }
-.random small { font:700 .75rem var(--body); color:#9aa3b5; text-shadow:none; }
-.random.rolling .label { animation:flick .12s steps(2) infinite; }
-@keyframes flick { 50% { opacity:.55; } }
-@media (max-width:560px) { .random { flex-wrap:wrap; font-size:.9rem; } .random small { width:100%; } }
+/* 랜덤 탑승 버튼: 승강장 + 양쪽 터널. 마우스를 올리면 기차가 왼쪽 터널에서 나와 오른쪽 터널로 들어간다 */
+.random { position:relative; display:block; width:100%; height:5.4rem; overflow:hidden; color:var(--fg); background:var(--bg); border:2px solid var(--fg); padding:0; cursor:pointer; transition:border-color .15s; }
+.random:hover, .random:focus-visible { border-color:var(--bar); }
+.random .rails { position:absolute; left:0; right:0; bottom:.55rem; height:.8rem;
+  background:linear-gradient(var(--bar),var(--bar)) 0 0/100% 2px no-repeat, linear-gradient(var(--bar),var(--bar)) 0 100%/100% 2px no-repeat,
+    repeating-linear-gradient(90deg, var(--bar) 0 3px, transparent 3px 16px); }
+.random .track { position:absolute; left:1.6rem; right:1.6rem; bottom:1.3rem; height:1.5rem; overflow:hidden; }
+.random .train { position:absolute; left:0; bottom:0; height:1.5rem; width:auto; transform:translateX(-100%); }
+.random:hover .train, .random:focus-visible .train, .random.rolling .train { animation:rail-run 4.2s linear infinite; }
+.random.rolling .train { animation-duration:2.2s; }
+@keyframes rail-run { 0% { left:0; transform:translateX(-100%); } 80% { left:100%; transform:translateX(0); } 100% { left:100%; transform:translateX(0); } }
+.random .tunnel { position:absolute; bottom:.3rem; height:3.7rem; width:auto; }
+.random .tunnel.l { left:.35rem; } .random .tunnel.r { right:.35rem; }
+.random .txt { position:relative; z-index:1; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.2rem .6rem; height:100%; padding:0 3.6rem 2.4rem; }
+.random .label { font:700 1.05rem var(--pixel); background:var(--bg); padding:0 .4rem; }
+.random .txt small { font-weight:700; font-size:.75rem; color:var(--muted); }
+@media (max-width:560px) { .random { height:6rem; } .random .label { font-size:.92rem; } .random .txt { padding-bottom:2.5rem; } }
 
 /* 사이드바 */
 .side { display:grid; gap:1rem; align-content:start; }
@@ -217,9 +220,11 @@ footer .icon-btn { font-size:.75rem; padding:.3rem .6rem; }
         </section>
 
         <button type="button" class="random" id="random-game">
-          <svg class="dice" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1" width="10" height="10" fill="#ffd84d"/><rect x="0" y="2" width="1" height="8" fill="#ffd84d"/><rect x="11" y="2" width="1" height="8" fill="#ffd84d"/><rect x="2" y="0" width="8" height="1" fill="#ffd84d"/><rect x="2" y="11" width="8" height="1" fill="#ffd84d"/><g fill="#141821"><rect x="3" y="3" width="2" height="2"/><rect x="7" y="3" width="2" height="2"/><rect x="5" y="5" width="2" height="2"/><rect x="3" y="7" width="2" height="2"/><rect x="7" y="7" width="2" height="2"/></g></svg>
-          <span class="label">고민될 땐? 아무 열차나 탑승하기</span>
-          <small>(랜덤 게임)</small>
+          <span class="rails" aria-hidden="true"></span>
+          <span class="track" aria-hidden="true"><svg class="train" viewBox="0 0 47 11" aria-hidden="true" shape-rendering="crispEdges"><rect x="0" y="2" width="13" height="7" fill="var(--bar)"/><rect x="2" y="4" width="3" height="2" fill="var(--bg)"/><rect x="8" y="4" width="3" height="2" fill="var(--bg)"/><rect x="13" y="6" width="2" height="1" fill="var(--fg)"/><rect x="15" y="2" width="13" height="7" fill="var(--fg)"/><rect x="17" y="4" width="3" height="2" fill="var(--bg)"/><rect x="23" y="4" width="3" height="2" fill="var(--bg)"/><rect x="28" y="6" width="2" height="1" fill="var(--fg)"/><rect x="30" y="1" width="7" height="8" fill="var(--fg)"/><rect x="32" y="3" width="3" height="2" fill="var(--bg)"/><rect x="37" y="4" width="8" height="5" fill="var(--fg)"/><rect x="40" y="0" width="2" height="4" fill="var(--fg)"/><rect x="45" y="5" width="1" height="2" fill="#ffd84d"/><g fill="var(--muted)"><rect x="2" y="9" width="3" height="2"/><rect x="8" y="9" width="3" height="2"/><rect x="17" y="9" width="3" height="2"/><rect x="23" y="9" width="3" height="2"/><rect x="32" y="9" width="3" height="2"/><rect x="39" y="9" width="3" height="2"/></g></svg></span>
+          <svg class="tunnel l" viewBox="0 0 40 74" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 74V20h2v-6h2v-4h2v-3h3v-2h4v-1h8v1h4v2h3v3h2v4h2v6h2v54z" fill="var(--fg)"/><path d="M9 74V24h2v-5h2v-3h3v-2h8v2h3v3h2v5h2v50z" fill="#000"/></svg>
+          <svg class="tunnel r" viewBox="0 0 40 74" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 74V20h2v-6h2v-4h2v-3h3v-2h4v-1h8v1h4v2h3v3h2v4h2v6h2v54z" fill="var(--fg)"/><path d="M9 74V24h2v-5h2v-3h3v-2h8v2h3v3h2v5h2v50z" fill="#000"/></svg>
+          <span class="txt"><b class="label">고민될 땐? 아무 열차나 탑승하기</b><small>(랜덤 게임)</small></span>
         </button>
 
         <section class="box" aria-labelledby="all-title">
