@@ -115,6 +115,21 @@ kbd { font:700 .72rem var(--mono); border:1px solid var(--line); border-bottom-w
 @keyframes pop { 40% { transform:scale(1.35); } }
 .heart .count { font-family:var(--mono); }
 
+/* 랜덤 탑승 버튼: 어두운 전광판 + 노란 네온 글씨 */
+.random { position:relative; width:100%; display:flex; align-items:center; justify-content:center; gap:.8rem; font:700 1rem var(--pixel); letter-spacing:.02em; color:#ffd84d; background:#141821; border:0; padding:1rem 1.2rem; cursor:pointer; text-shadow:0 0 6px rgba(255,216,77,.55);
+  box-shadow:inset 0 0 0 2px #2b3242, inset 0 0 0 4px #141821, inset 0 0 0 6px var(--bar), 0 4px 0 #0b0e14; transition:transform .1s, box-shadow .15s; }
+.random::before, .random::after { content:""; position:absolute; top:50%; width:.5rem; height:.5rem; margin-top:-.25rem; background:var(--bar); box-shadow:0 0 6px var(--bar); }
+.random::before { left:1rem; } .random::after { right:1rem; }
+.random:hover { transform:translateY(-1px); box-shadow:inset 0 0 0 2px #2b3242, inset 0 0 0 4px #141821, inset 0 0 0 6px #5b8cff, 0 5px 0 #0b0e14, 0 0 18px rgba(59,110,230,.45); }
+.random:active { transform:translateY(3px); box-shadow:inset 0 0 0 2px #2b3242, inset 0 0 0 4px #141821, inset 0 0 0 6px var(--bar), 0 1px 0 #0b0e14; }
+.random .dice { width:28px; height:28px; flex:none; shape-rendering:crispEdges; filter:drop-shadow(0 0 4px rgba(255,216,77,.6)); }
+.random:hover .dice { animation:roll .6s steps(4) infinite; }
+@keyframes roll { 25% { transform:rotate(90deg); } 50% { transform:rotate(180deg); } 75% { transform:rotate(270deg); } 100% { transform:rotate(360deg); } }
+.random small { font:700 .75rem var(--body); color:#9aa3b5; text-shadow:none; }
+.random.rolling .label { animation:flick .12s steps(2) infinite; }
+@keyframes flick { 50% { opacity:.55; } }
+@media (max-width:560px) { .random { flex-wrap:wrap; font-size:.9rem; } .random small { width:100%; } }
+
 /* 사이드바 */
 .side { display:grid; gap:1rem; align-content:start; }
 .side ul { margin:0; padding-left:1.1rem; display:grid; gap:.35rem; font-size:.82rem; }
@@ -200,6 +215,12 @@ footer .icon-btn { font-size:.75rem; padding:.3rem .6rem; }
             </article>
           </div>
         </section>
+
+        <button type="button" class="random" id="random-game">
+          <svg class="dice" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1" width="10" height="10" fill="#ffd84d"/><rect x="0" y="2" width="1" height="8" fill="#ffd84d"/><rect x="11" y="2" width="1" height="8" fill="#ffd84d"/><rect x="2" y="0" width="8" height="1" fill="#ffd84d"/><rect x="2" y="11" width="8" height="1" fill="#ffd84d"/><g fill="#141821"><rect x="3" y="3" width="2" height="2"/><rect x="7" y="3" width="2" height="2"/><rect x="5" y="5" width="2" height="2"/><rect x="3" y="7" width="2" height="2"/><rect x="7" y="7" width="2" height="2"/></g></svg>
+          <span class="label">고민될 땐? 아무 열차나 탑승하기</span>
+          <small>(랜덤 게임)</small>
+        </button>
 
         <section class="box" aria-labelledby="all-title">
           <h2 id="all-title">전체 게임</h2>
@@ -316,6 +337,35 @@ footer .icon-btn { font-size:.75rem; padding:.3rem .6rem; }
     setTimeout(runTrain, 4000);                     // 처음엔 4초 뒤 한 번
     setInterval(runTrain, EVERY_MS);
   }
+
+  // 랜덤 탑승: 지금 플레이할 수 있는 게임 중 하나로 새 탭에서 출발합니다 (SOON 게임 제외).
+  const TRAINS = [
+    { name: "바다 가두리 낚시터", url: "https://chaechaechae99.github.io/seafarm-tycoon/" },
+    { name: "신입사원 공항 키우기", url: "https://airport-rookie.onrender.com/" },
+    { name: "두더지 잡기", url: "https://chaechaechae99.github.io/whack-a-mole/" },
+  ];
+  const randomBtn = $("random-game"), randomLabel = randomBtn.querySelector(".label");
+  let lastPick = -1, rolling = false;
+  randomBtn.addEventListener("click", () => {
+    if (rolling) return;
+    let pick;
+    do { pick = Math.floor(Math.random() * TRAINS.length); } while (TRAINS.length > 1 && pick === lastPick);
+    lastPick = pick;
+    // 팝업 차단을 피하려고 클릭하는 순간 새 탭을 먼저 열고, 행선지를 보여준 뒤 이동합니다.
+    const tab = window.open("about:blank", "_blank");
+    if (tab) tab.opener = null;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    rolling = true; randomBtn.classList.add("rolling");
+    let i = 0;
+    const spin = reduce ? null : setInterval(() => { randomLabel.textContent = TRAINS[i++ % TRAINS.length].name + " 행?"; }, 90);
+    setTimeout(() => {
+      clearInterval(spin);
+      randomBtn.classList.remove("rolling");
+      randomLabel.textContent = "Next Stop, " + TRAINS[pick].name + "!";
+      if (tab) tab.location.href = TRAINS[pick].url; else location.href = TRAINS[pick].url;
+      setTimeout(() => { randomLabel.textContent = "고민될 땐? 아무 열차나 탑승하기"; rolling = false; }, 2500);
+    }, reduce ? 0 : 900);
+  });
 
   // 알림
   let toastTimer;
