@@ -4,8 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CHAE STATION</title>
+<meta name="description" content="Next Stop, Fun! 채웅이 만든 인디게임 승강장. 설치 없이 브라우저에서 바로 플레이.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 8 8%27 shape-rendering=%27crispEdges%27%3E%3Crect width=%278%27 height=%278%27 fill=%27%232556c9%27/%3E%3Cpath d=%27M3 2h1v1h1v1h1v1h-1v1h-1v1h-1z%27 fill=%27%23fff%27/%3E%3C/svg%3E">
-<meta name="description" content="채웅이 만든 게임 모음">
+<!-- 카카오톡·SNS에 링크를 붙였을 때 뜨는 미리보기 카드 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CHAE STATION">
+<meta property="og:title" content="CHAE STATION · Next Stop, Fun!">
+<meta property="og:description" content="채웅이 만든 인디게임 승강장. 바다 가두리 낚시터, 신입사원 공항 키우기를 설치 없이 바로 플레이.">
+<meta property="og:url" content="https://chaechaechae99.github.io/chae-station/">
+<meta property="og:image" content="https://chaechaechae99.github.io/chae-station/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
@@ -18,40 +28,47 @@
 @font-face { font-family:"Galmuri"; src:url("assets/Galmuri11-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
 :root {
   --bg:#ffffff; --fg:#1b2130; --muted:#5d6577; --line:#d9dde6; --soft:#f3f5f9;
-  --bar:#2556c9; --bar-fg:#ffffff; --hl:#fff3b0; --tab:#eef2fb; --new:#e8402c;
+  --bar:#2556c9; --bar-fg:#ffffff; --tab:#eef2fb; --new:#e8402c; --heart:#e8402c;
   --pixel:"Galmuri", "Nanum Gothic Coding", monospace;
   --mono:"Nanum Gothic Coding", ui-monospace, monospace;
   --body:"Nanum Gothic", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg:#12151c; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a303d; --soft:#1a1f29;
-  --bar:#3b6ee6; --bar-fg:#ffffff; --hl:#3a3418; --tab:#1c2333; --new:#ff5a45;
+  --bar:#3b6ee6; --bar-fg:#ffffff; --tab:#1c2333; --new:#ff5a45; --heart:#ff6b5a;
   color-scheme:dark;
 } }
 :root[data-theme="dark"] {
   --bg:#12151c; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a303d; --soft:#1a1f29;
-  --bar:#3b6ee6; --bar-fg:#ffffff; --hl:#3a3418; --tab:#1c2333; --new:#ff5a45;
+  --bar:#3b6ee6; --bar-fg:#ffffff; --tab:#1c2333; --new:#ff5a45; --heart:#ff6b5a;
   color-scheme:dark;
 }
 * { box-sizing:border-box; }
+[hidden], [data-hide] { display:none !important; }
 body { margin:0; background:var(--bg); color:var(--fg); font:.9rem/1.6 var(--body); }
 a { color:inherit; }
 img { display:block; max-width:100%; height:auto; }
+button { font:inherit; }
 :focus-visible { outline:3px solid var(--new); outline-offset:3px; }
 h1,h2,h3,p { word-break:keep-all; overflow-wrap:anywhere; }
 .wrap { width:min(100%, 72rem); margin-inline:auto; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:1rem 3rem; }
 
-.top { display:flex; flex-wrap:wrap; align-items:flex-end; gap:.5rem 1.25rem; padding-block:.75rem; border-bottom:3px solid var(--bar); }
-.logo { margin:0; font:700 1.9rem/1 var(--pixel); letter-spacing:-.02em; }
-.logo a { text-decoration:none; }
+/* 머리말 */
+.top { display:flex; flex-wrap:wrap; align-items:flex-end; gap:.5rem 1.25rem; padding-block:.75rem .5rem; border-bottom:3px solid var(--bar); }
+.logo { margin:0; }
 .logo a { display:block; }
 .logo svg { display:block; height:64px; width:auto; max-width:100%; }
-.theme { margin-left:auto; font:700 .8rem var(--body); color:var(--fg); background:var(--soft); border:1px solid var(--line); padding:.35rem .7rem; cursor:pointer; }
+.slogan { margin:.15rem 0 0 1px; font-size:.78rem; color:var(--muted); }
+.slogan b { font:700 .78rem var(--pixel); color:var(--fg); margin-right:.35rem; letter-spacing:.04em; }
+.theme { margin-left:auto; font-weight:700; font-size:.8rem; color:var(--fg); background:var(--soft); border:1px solid var(--line); padding:.35rem .7rem; cursor:pointer; }
 
+/* 장르 탭 */
 .cats { display:flex; flex-wrap:wrap; background:var(--tab); border:1px solid var(--line); border-top:0; }
-.cats button { font:700 .85rem var(--body); color:var(--fg); background:transparent; border:0; border-right:1px solid var(--line); padding:.55rem .9rem; cursor:pointer; }
+.cats button { font-weight:700; font-size:.85rem; color:var(--fg); background:transparent; border:0; border-right:1px solid var(--line); padding:.55rem .9rem; cursor:pointer; }
+.cats button:hover { background:var(--bg); }
 .cats button[aria-pressed="true"] { background:var(--bg); color:var(--bar); box-shadow:inset 0 -3px 0 var(--bar); }
 .cats small { font-family:var(--mono); color:var(--muted); font-weight:400; margin-left:.2rem; }
+.cats .soon-tab small { font:700 .62rem var(--pixel); color:var(--new); letter-spacing:.03em; }
 
 .layout { display:grid; grid-template-columns:minmax(0,1fr) 15rem; gap:1rem; margin-top:1rem; }
 .main { display:grid; gap:1rem; min-width:0; align-content:start; }
@@ -59,95 +76,89 @@ h1,h2,h3,p { word-break:keep-all; overflow-wrap:anywhere; }
 .box > h2 { margin:0; font:700 .85rem var(--pixel); color:var(--bar-fg); background:var(--bar); padding:.4rem .7rem; letter-spacing:.02em; }
 .box > .in { padding:.8rem; }
 
+/* 게임 카드 */
 .pick { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.8rem; }
-.game { display:grid; gap:.45rem; align-content:start; min-width:0; }
+.game { display:grid; gap:.45rem; align-content:start; min-width:0; scroll-margin-top:1rem; }
+.game.flash .shot { outline:3px solid var(--bar); outline-offset:2px; }
 .shot { position:relative; display:block; border:1px solid var(--line); text-decoration:none; overflow:hidden; }
 .shot picture { display:block; }
+.shot img { width:100%; aspect-ratio:1; object-fit:cover; transition:transform .25s ease; }
 .shot img.px { image-rendering:pixelated; }
-.shot img { width:100%; aspect-ratio:1; object-fit:cover; }
-a.shot:hover img { filter:brightness(1.06); }
-a.shot::after { content:"▶ 게임하기"; position:absolute; left:0; right:0; bottom:0; font:700 .8rem var(--pixel); color:#fff; background:rgba(17,24,39,.8); padding:.4rem .6rem; transform:translateY(100%); transition:transform .15s; }
-a.shot:hover::after, a.shot:focus-visible::after { transform:none; }
+a.shot:hover img { transform:scale(1.03); }
+/* 그림 위 플레이 표시: 평소엔 작은 알약, 마우스를 올리면 아래 띠로 펼쳐짐 */
+a.shot .go { position:absolute; left:.5rem; bottom:.5rem; display:inline-flex; align-items:center; gap:.35rem; font:700 .72rem var(--pixel); color:#fff; background:rgba(17,24,39,.82); padding:.3rem .55rem; transition:left .18s ease, right .18s ease, bottom .18s ease, padding .18s ease; }
+a.shot .go::before { content:""; width:0; height:0; border-left:.45rem solid currentColor; border-block:.3rem solid transparent; }
+a.shot:hover .go, a.shot:focus-visible .go { left:0; right:0; bottom:0; padding:.5rem .7rem; }
 .badge { position:absolute; top:.4rem; left:.4rem; z-index:1; font:700 .7rem var(--pixel); background:var(--new); color:#fff; padding:.1rem .35rem; }
 .badge.soon { background:var(--fg); color:var(--bg); }
 .game h3 { margin:0; font-size:1rem; font-weight:800; }
 .game p { margin:0; color:var(--muted); font-size:.85rem; }
 dl { display:grid; grid-template-columns:auto 1fr; gap:.1rem .6rem; margin:0; font-size:.8rem; }
 dt { color:var(--muted); } dd { margin:0; }
+kbd { font:700 .72rem var(--mono); border:1px solid var(--line); border-bottom-width:2px; padding:0 .3rem; background:var(--soft); }
 .all { display:grid; grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr)); gap:.8rem; }
 .all .game h3 { font-size:.9rem; }
 
+/* 카드 아래 행동 버튼: 플레이 · 찜 · 공유 */
+.acts { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.15rem; }
+.play { display:inline-flex; align-items:center; gap:.4rem; font:700 .82rem var(--pixel); color:#fff; background:var(--bar); text-decoration:none; padding:.5rem .85rem; box-shadow:0 3px 0 color-mix(in srgb, var(--bar) 55%, #000); transition:transform .1s, box-shadow .1s; }
+.play::before { content:""; width:0; height:0; border-left:.5rem solid currentColor; border-block:.32rem solid transparent; }
+.play:hover { transform:translateY(-1px); box-shadow:0 4px 0 color-mix(in srgb, var(--bar) 55%, #000); }
+.play:active { transform:translateY(2px); box-shadow:0 1px 0 color-mix(in srgb, var(--bar) 55%, #000); }
+.icon-btn { display:inline-flex; align-items:center; gap:.35rem; font-weight:700; font-size:.8rem; color:var(--fg); background:var(--bg); border:1px solid var(--line); padding:.45rem .7rem; cursor:pointer; transition:border-color .15s, color .15s; }
+.icon-btn:hover { border-color:var(--fg); }
+.icon-btn svg { width:14px; height:14px; shape-rendering:crispEdges; }
+.heart svg { fill:none; stroke:currentColor; }
+.heart[aria-pressed="true"] { color:var(--heart); border-color:var(--heart); }
+.heart[aria-pressed="true"] svg { fill:currentColor; }
+.heart.pop svg { animation:pop .35s ease; }
+@keyframes pop { 40% { transform:scale(1.35); } }
+.heart .count { font-family:var(--mono); }
+
+/* 사이드바 */
 .side { display:grid; gap:1rem; align-content:start; }
 .side ul { margin:0; padding-left:1.1rem; display:grid; gap:.35rem; font-size:.82rem; }
 .side time { font-family:var(--mono); color:var(--muted); margin-right:.3rem; }
-.side p { margin:0; font-size:.82rem; }
-kbd { font:700 .72rem var(--mono); border:1px solid var(--line); border-bottom-width:2px; padding:0 .3rem; background:var(--soft); }
-footer { margin-top:1.5rem; padding-top:.8rem; border-top:1px solid var(--line); color:var(--muted); font-size:.75rem; display:flex; flex-wrap:wrap; gap:.25rem 1rem; }
-/* 커뮤니티 */
-.cats .tab-community { color:var(--new); }
-.board { display:grid; gap:.8rem; }
-.board-bar { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .8rem; }
-.heads { display:flex; flex-wrap:wrap; gap:.3rem; }
-.heads button { font:700 .78rem var(--body); color:var(--fg); background:var(--soft); border:1px solid var(--line); padding:.25rem .6rem; cursor:pointer; }
-.heads button[aria-pressed="true"] { background:var(--bar); border-color:var(--bar); color:var(--bar-fg); }
-.sort { margin-left:auto; display:flex; align-items:center; gap:.35rem; font-size:.8rem; color:var(--muted); }
-select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); border:1px solid var(--line); padding:.35rem .5rem; min-width:0; }
-.write-btn { font:700 .8rem var(--pixel); color:#fff; background:var(--new); border:0; padding:.45rem .8rem; cursor:pointer; }
-.post-form { display:grid; gap:.6rem; border:1px solid var(--line); background:var(--soft); padding:.8rem; }
-.post-form label { display:grid; gap:.2rem; font-size:.8rem; font-weight:700; }
-.post-form textarea { min-height:6.5rem; resize:vertical; }
-.post-form [aria-invalid="true"] { border-color:var(--new); }
-.row2 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem; }
-.form-foot { display:flex; align-items:center; gap:.8rem; }
-.form-status { margin:0; flex:1; font-size:.8rem; font-weight:700; }
-.form-status.err { color:var(--new); }
-.post-list { list-style:none; margin:0; padding:0; border-top:2px solid var(--fg); }
-.post { border-bottom:1px solid var(--line); }
-.post-head { width:100%; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:.2rem .6rem; align-items:baseline; text-align:left; font:inherit; color:inherit; background:transparent; border:0; padding:.55rem .2rem; cursor:pointer; }
-.post-head:hover .post-title { text-decoration:underline; }
-.tagh { font:700 .72rem var(--body); color:var(--bar); white-space:nowrap; }
-.post-title { font-weight:700; min-width:0; overflow-wrap:anywhere; }
-.post-meta { grid-column:2 / 4; font-size:.75rem; color:var(--muted); font-variant-numeric:tabular-nums; }
-.likes { font:700 .75rem var(--mono); color:var(--muted); white-space:nowrap; }
-.hot { display:inline-block; font:700 .65rem var(--pixel); color:#fff; background:var(--new); padding:0 .3rem; margin-right:.3rem; vertical-align:.1em; }
-.post-body { padding:.2rem .2rem .8rem; display:grid; gap:.6rem; }
-.post-body p { margin:0; white-space:pre-wrap; }
-.post-actions { display:flex; gap:.5rem; }
-.post-actions button { font:700 .78rem var(--body); color:var(--fg); background:var(--soft); border:1px solid var(--line); padding:.3rem .7rem; cursor:pointer; }
-.post-actions .liked { border-color:var(--new); color:var(--new); }
-.board-empty, .hot-empty { margin:0; color:var(--muted); font-size:.82rem; }
-.prep { margin:.5rem 0 0 !important; }
-.prep span { display:inline-block; font:700 .72rem var(--pixel); color:var(--bg); background:var(--fg); padding:.1rem .45rem; }
-.hot-list { list-style:none; margin:0; padding:0; display:grid; gap:.1rem; }
-.hot-list button { width:100%; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.4rem; text-align:left; font:inherit; font-size:.82rem; color:var(--fg); background:transparent; border:0; border-bottom:1px dashed var(--line); padding:.35rem 0; cursor:pointer; }
-.hot-list button:hover span { text-decoration:underline; }
-.hot-list span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.hot-list small { font:700 .72rem var(--mono); color:var(--muted); }
-@media (max-width:560px) { .row2 { grid-template-columns:1fr; } .sort { margin-left:0; } }
-[data-hide], [hidden] { display:none !important; }
+.soon-box p { margin:0; color:var(--muted); font-size:.82rem; }
+.soon-tag { display:inline-block; font:700 .7rem var(--pixel); letter-spacing:.06em; color:var(--bg); background:var(--fg); padding:.1rem .45rem; margin-top:.5rem; }
+
+/* 커뮤니티 COMING SOON */
+.coming { display:grid; justify-items:center; text-align:center; gap:.6rem; padding:3rem 1rem 3.2rem; }
+.coming svg { width:180px; height:auto; shape-rendering:crispEdges; }
+.coming strong { font:700 1.6rem/1.2 var(--pixel); letter-spacing:.06em; }
+.coming p { margin:0; color:var(--muted); }
+.coming ul { list-style:none; margin:.4rem 0 0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:.4rem; }
+.coming li { font-size:.78rem; font-weight:700; border:1px solid var(--line); background:var(--soft); padding:.2rem .6rem; }
+
+/* 바닥글 */
+footer { margin-top:1.5rem; padding-top:.8rem; border-top:1px solid var(--line); color:var(--muted); font-size:.75rem; display:flex; flex-wrap:wrap; align-items:center; gap:.4rem 1rem; }
+footer .share-site { margin-left:auto; display:flex; gap:.4rem; }
+footer .icon-btn { font-size:.75rem; padding:.3rem .6rem; }
+
+/* 알림 토스트 */
+.toast { position:fixed; left:50%; bottom:calc(1.25rem + env(safe-area-inset-bottom, 0px)); transform:translate(-50%, 1rem); opacity:0; pointer-events:none; font-weight:700; font-size:.85rem; color:var(--bg); background:var(--fg); padding:.6rem 1rem; transition:opacity .2s, transform .2s; z-index:20; }
+.toast.on { opacity:1; transform:translate(-50%, 0); }
 
 @media (max-width:760px) { .layout { grid-template-columns:1fr; } }
-@media (max-width:440px) { .pick { grid-template-columns:1fr; } .theme { margin-left:0; } }
-@media (prefers-reduced-motion:reduce) { a.shot::after { transition:none; } }
+@media (max-width:440px) { .pick { grid-template-columns:1fr; } .theme { margin-left:0; } footer .share-site { margin-left:0; } }
+/* 마우스가 없는 휴대폰에서는 플레이 띠를 항상 펼쳐 둡니다 */
+@media (hover:none) { a.shot .go { left:0; right:0; bottom:0; padding:.45rem .7rem; } }
+@media (prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none !important; animation:none !important; } }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-heart" viewBox="0 0 14 14"><path d="M1 4.5L3.5 2H5.5L7 3.5L8.5 2H10.5L13 4.5V7L7 12.5L1 7Z" stroke-width="1.5" stroke-linejoin="miter"/></symbol>
+  <symbol id="i-share" viewBox="0 0 14 14"><g fill="currentColor"><rect x="10" y="1" width="3" height="3"/><rect x="1" y="5.5" width="3" height="3"/><rect x="10" y="10" width="3" height="3"/></g><path d="M4 7L10.5 2.5M4 7L10.5 11.5" stroke="currentColor" stroke-width="1.3" fill="none"/></symbol>
+  <symbol id="i-link" viewBox="0 0 14 14"><path d="M6 4H4a3 3 0 0 0 0 6h2M8 4h2a3 3 0 0 1 0 6H8M4.5 7h5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+</svg>
+
 <div class="wrap">
   <header class="top">
-    <h1 class="logo"><a href="./" aria-label="CHAE STATION 처음으로">
-      <svg viewBox="0 0 330 78" role="img" aria-label="CHAE STATION" shape-rendering="crispEdges">
-        <!-- 기찻길: 터널 기둥 뒤로 들어간다 -->
-        <g fill="var(--bar)"><rect x="9" y="64" width="321" height="2"/><rect x="9" y="70" width="321" height="2"/><rect x="46" y="62" width="3" height="12"/><rect x="64" y="62" width="3" height="12"/><rect x="82" y="62" width="3" height="12"/><rect x="100" y="62" width="3" height="12"/><rect x="118" y="62" width="3" height="12"/><rect x="136" y="62" width="3" height="12"/><rect x="154" y="62" width="3" height="12"/><rect x="172" y="62" width="3" height="12"/><rect x="190" y="62" width="3" height="12"/><rect x="208" y="62" width="3" height="12"/><rect x="226" y="62" width="3" height="12"/><rect x="244" y="62" width="3" height="12"/><rect x="262" y="62" width="3" height="12"/><rect x="280" y="62" width="3" height="12"/><rect x="298" y="62" width="3" height="12"/><rect x="316" y="62" width="3" height="12"/></g>
-        <!-- 터널 -->
-        <path d="M2 76V22h2v-6h2v-4h2v-3h3v-2h4v-1h8v1h4v2h3v3h2v4h2v6h2v54z" fill="var(--fg)"/>
-        <path d="M9 76V26h2v-5h2v-3h3v-2h8v2h3v3h2v5h2v50z" fill="#000"/>
-        <!-- 터널 안: 어둠 속으로 사라지는 기찻길 -->
-        <g fill="var(--bar)" opacity=".35"><rect x="9" y="64" width="24" height="2"/><rect x="9" y="70" width="24" height="2"/></g>
-        <g fill="var(--bg)" opacity=".35"><rect x="4" y="30" width="3" height="1"/><rect x="35" y="40" width="3" height="1"/><rect x="4" y="52" width="3" height="1"/><rect x="35" y="60" width="3" height="1"/></g>
-        <!-- 속도선 -->
-        <g fill="var(--muted)"><rect x="44" y="30" width="10" height="2"/><rect x="40" y="38" width="14" height="2"/><rect x="46" y="46" width="8" height="2"/></g>
-        <text x="60" y="54" font-family="Galmuri, monospace" font-weight="700" font-size="34" letter-spacing="-1" fill="var(--fg)">CHAE <tspan fill="var(--bar)">STATION</tspan></text>
-      </svg></a></h1>
+    <div class="brand">
+      <h1 class="logo"><a href="./" aria-label="CHAE STATION 처음으로"><svg viewBox="0 0 330 78" role="img" aria-label="CHAE STATION" shape-rendering="crispEdges"><style>.lg-train{animation:lg-run 10s linear infinite}@keyframes lg-run{0%{transform:translateX(-50px)}45%{transform:translateX(340px)}100%{transform:translateX(340px)}}@media (prefers-reduced-motion:reduce){.lg-train,.lg-glow,.lg-lamp,.lg-sleepers,.lg-speed rect{animation:none}.lg-train{transform:translateX(150px)}}</style><g fill="var(--bar)"><rect x="9" y="64" width="321" height="2"/><rect x="9" y="70" width="321" height="2"/><rect x="46" y="62" width="3" height="12"/><rect x="64" y="62" width="3" height="12"/><rect x="82" y="62" width="3" height="12"/><rect x="100" y="62" width="3" height="12"/><rect x="118" y="62" width="3" height="12"/><rect x="136" y="62" width="3" height="12"/><rect x="154" y="62" width="3" height="12"/><rect x="172" y="62" width="3" height="12"/><rect x="190" y="62" width="3" height="12"/><rect x="208" y="62" width="3" height="12"/><rect x="226" y="62" width="3" height="12"/><rect x="244" y="62" width="3" height="12"/><rect x="262" y="62" width="3" height="12"/><rect x="280" y="62" width="3" height="12"/><rect x="298" y="62" width="3" height="12"/><rect x="316" y="62" width="3" height="12"/><rect x="334" y="62" width="3" height="12"/></g><path d="M2 76V22h2v-6h2v-4h2v-3h3v-2h4v-1h8v1h4v2h3v3h2v4h2v6h2v54z" fill="var(--fg)"/><path d="M9 76V26h2v-5h2v-3h3v-2h8v2h3v3h2v5h2v50z" fill="#000"/><g fill="var(--bar)" opacity=".35"><rect x="9" y="64" width="24" height="2"/><rect x="9" y="70" width="24" height="2"/></g><g fill="var(--bg)" opacity=".35"><rect x="4" y="30" width="3" height="1"/><rect x="35" y="40" width="3" height="1"/><rect x="4" y="52" width="3" height="1"/><rect x="35" y="60" width="3" height="1"/></g><g class="lg-speed" fill="var(--muted)"><rect x="44" y="30" width="10" height="2"/><rect x="40" y="38" width="14" height="2"/><rect x="46" y="46" width="8" height="2"/></g><text x="60" y="52" font-family="Galmuri, monospace" font-weight="700" font-size="34" letter-spacing="-1" fill="var(--fg)">CHAE <tspan fill="var(--bar)">STATION</tspan></text><clipPath id="lg-clip"><rect x="9" y="0" width="330" height="78"/></clipPath><g clip-path="url(#lg-clip)"><g class="lg-train"><rect x="0" y="55" width="13" height="7" fill="var(--bar)"/><rect x="2" y="57" width="3" height="2" fill="var(--bg)"/><rect x="8" y="57" width="3" height="2" fill="var(--bg)"/><rect x="13" y="59" width="2" height="1" fill="var(--fg)"/><rect x="15" y="55" width="13" height="7" fill="var(--fg)"/><rect x="17" y="57" width="3" height="2" fill="var(--bg)"/><rect x="23" y="57" width="3" height="2" fill="var(--bg)"/><rect x="28" y="59" width="2" height="1" fill="var(--fg)"/><rect x="30" y="54" width="7" height="8" fill="var(--fg)"/><rect x="32" y="56" width="3" height="2" fill="var(--bg)"/><rect x="37" y="57" width="8" height="5" fill="var(--fg)"/><rect x="40" y="53" width="2" height="4" fill="var(--fg)"/><rect x="45" y="58" width="1" height="2" fill="#ffd84d"/><g fill="var(--muted)"><rect x="2" y="62" width="3" height="2"/><rect x="8" y="62" width="3" height="2"/><rect x="17" y="62" width="3" height="2"/><rect x="23" y="62" width="3" height="2"/><rect x="32" y="62" width="3" height="2"/><rect x="39" y="62" width="3" height="2"/></g></g></g></svg></a></h1>
+      <p class="slogan"><b>NEXT STOP, FUN!</b>채웅이 만든 인디게임 승강장</p>
+    </div>
     <button type="button" id="theme" class="theme">다크모드</button>
   </header>
   <nav class="cats" aria-label="장르">
@@ -156,92 +167,79 @@ select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); b
     <button type="button" id="cat-idle" data-cat="idle" aria-pressed="false">방치형<small>1</small></button>
     <button type="button" id="cat-sports" data-cat="sports" aria-pressed="false">스포츠<small>1</small></button>
     <button type="button" id="cat-arcade" data-cat="arcade" aria-pressed="false">순발력<small>1</small></button>
-    <button type="button" id="cat-community" data-view="community" aria-pressed="false" class="tab-community">커뮤니티<small id="post-count">0</small></button>
+    <button type="button" id="cat-community" data-view="community" aria-pressed="false" class="soon-tab">커뮤니티<small>SOON</small></button>
   </nav>
 
   <div class="layout">
     <main class="main">
       <div id="games-view" class="main">
-      <section class="box" aria-labelledby="pick-title">
-        <h2 id="pick-title">오늘의 추천 게임</h2>
-        <div class="in pick">
-          <article class="game" data-cats="tycoon idle">
-            <a class="shot" href="https://chaechaechae99.github.io/seafarm-tycoon/" target="_blank" rel="noopener"><span class="badge">NEW</span><picture><source srcset="assets/seafarm-promo-still.webp" media="(prefers-reduced-motion: reduce)"><img class="px" src="assets/seafarm-promo.webp" width="480" height="480" alt="바다 가두리 낚시터 게임 그림으로 만든 장면. 손님들이 가두리 좌대에서 낚시하고 큰 방어가 물 위로 튀어 오른다"></picture></a>
-            <h3>바다 가두리 낚시터</h3>
-            <p>남해 바다 위에 낚시 리조트를 차리고, 손님이 낚는 동안 돈이 쌓이는 방치형 타이쿤.</p>
-            <dl><dt>장르</dt><dd>방치형 · 낚시 · 경영</dd><dt>어종</dt><dd>연안 48종 + 원정 350종</dd><dt>조작</dt><dd>드래그 이동 · <kbd>Space</kbd> 낚시</dd></dl>
-          </article>
-          <article class="game" data-cats="tycoon">
-            <a class="shot" href="https://airport-rookie.onrender.com/" target="_blank" rel="noopener"><img class="px" src="assets/airport.svg" width="480" height="480" alt="신입사원 공항 키우기 게임 그림으로 만든 장면. 비행기가 내려와 활주로에 착륙한다"></a>
-            <h3>신입사원 공항 키우기</h3>
-            <p>회장님이 가리킨 빈 땅에 공항을 짓고 10년 안에 회장까지. 2년 차에 회사 규칙이 바뀐다.</p>
-            <dl><dt>장르</dt><dd>경영 시뮬레이션</dd><dt>난이도</dt><dd>쉬움 · 보통 · 어려움</dd><dt>조작</dt><dd>마우스</dd></dl>
-          </article>
-        </div>
-      </section>
+        <section class="box" aria-labelledby="pick-title">
+          <h2 id="pick-title">오늘의 추천 게임</h2>
+          <div class="in pick">
+            <article class="game" id="seafarm" data-cats="tycoon idle">
+              <a class="shot" href="https://chaechaechae99.github.io/seafarm-tycoon/" target="_blank" rel="noopener"><span class="badge">NEW</span><picture><source srcset="assets/seafarm-promo-still.webp" media="(prefers-reduced-motion: reduce)"><img class="px" src="assets/seafarm-promo.webp" width="480" height="480" alt="바다 가두리 낚시터 게임 그림으로 만든 장면. 손님들이 가두리 좌대에서 낚시하고 큰 방어가 물 위로 튀어 오른다"></picture><span class="go">지금 바로 플레이</span></a>
+              <h3>바다 가두리 낚시터</h3>
+              <p>남해 바다 위에 낚시 리조트를 차리고, 손님이 낚는 동안 돈이 쌓이는 방치형 타이쿤.</p>
+              <dl><dt>장르</dt><dd>방치형 · 낚시 · 경영</dd><dt>어종</dt><dd>연안 48종 + 원정 350종</dd><dt>조작</dt><dd>드래그 이동 · <kbd>Space</kbd> 낚시</dd></dl>
+              <div class="acts">
+                <a class="play" href="https://chaechaechae99.github.io/seafarm-tycoon/" target="_blank" rel="noopener">지금 플레이</a>
+                <button type="button" class="icon-btn heart" id="heart-seafarm" data-game="seafarm" aria-pressed="false"><svg aria-hidden="true"><use href="#i-heart"/></svg><span class="label">찜</span></button>
+                <button type="button" class="icon-btn share" id="share-seafarm" data-game="seafarm" data-title="바다 가두리 낚시터"><svg aria-hidden="true"><use href="#i-share"/></svg>공유</button>
+              </div>
+            </article>
+            <article class="game" id="airport" data-cats="tycoon">
+              <a class="shot" href="https://airport-rookie.onrender.com/" target="_blank" rel="noopener"><img class="px" src="assets/airport.svg" width="480" height="480" alt="신입사원 공항 키우기 게임 그림으로 만든 장면. 비행기가 내려와 활주로에 착륙한다"><span class="go">지금 바로 플레이</span></a>
+              <h3>신입사원 공항 키우기</h3>
+              <p>회장님이 가리킨 빈 땅에 공항을 짓고 10년 안에 회장까지. 2년 차에 회사 규칙이 바뀐다.</p>
+              <dl><dt>장르</dt><dd>경영 시뮬레이션</dd><dt>난이도</dt><dd>쉬움 · 보통 · 어려움</dd><dt>조작</dt><dd>마우스</dd></dl>
+              <div class="acts">
+                <a class="play" href="https://airport-rookie.onrender.com/" target="_blank" rel="noopener">지금 플레이</a>
+                <button type="button" class="icon-btn heart" id="heart-airport" data-game="airport" aria-pressed="false"><svg aria-hidden="true"><use href="#i-heart"/></svg><span class="label">찜</span></button>
+                <button type="button" class="icon-btn share" id="share-airport" data-game="airport" data-title="신입사원 공항 키우기"><svg aria-hidden="true"><use href="#i-share"/></svg>공유</button>
+              </div>
+            </article>
+          </div>
+        </section>
 
-      <section class="box" aria-labelledby="all-title">
-        <h2 id="all-title">전체 게임</h2>
-        <div class="in all">
-          <article class="game" data-cats="tycoon idle">
-            <a class="shot" href="https://chaechaechae99.github.io/seafarm-tycoon/" target="_blank" rel="noopener"><img class="px" src="assets/seafarm-promo-still.webp" width="480" height="480" alt="바다 가두리 낚시터"></a>
-            <h3>바다 가두리 낚시터</h3><p>방치형 낚시 타이쿤</p>
-          </article>
-          <article class="game" data-cats="tycoon">
-            <a class="shot" href="https://airport-rookie.onrender.com/" target="_blank" rel="noopener"><img class="px" src="assets/airport-still.webp" width="440" height="440" alt="신입사원 공항 키우기"></a>
-            <h3>신입사원 공항 키우기</h3><p>공항 경영 시뮬레이션</p>
-          </article>
-          <article class="game" data-cats="sports">
-            <div class="shot"><span class="badge soon">SOON</span><img src="assets/soccer-sq.webp" width="480" height="480" alt="축구 인생 N회차 경기 화면. 전반 36분 1 대 1"></div>
-            <h3>축구 인생 N회차</h3><p>무명에서 전설까지, 운명은 랜덤</p>
-          </article>
-          <article class="game" data-cats="arcade">
-            <a class="shot" href="https://chaechaechae99.github.io/whack-a-mole/" target="_blank" rel="noopener"><img src="assets/mole-sq.webp" width="400" height="400" alt="두더지 잡기 게임 화면. 가운데 구멍에서 메롱 두더지가 혀를 내밀고 있다"></a>
-            <h3>두더지 잡기</h3><p>30초 동안 황금 두더지를 노려라</p>
-          </article>
-        </div>
-      </section>
+        <section class="box" aria-labelledby="all-title">
+          <h2 id="all-title">전체 게임</h2>
+          <div class="in all">
+            <article class="game" data-cats="tycoon idle">
+              <a class="shot" href="https://chaechaechae99.github.io/seafarm-tycoon/" target="_blank" rel="noopener"><img class="px" src="assets/seafarm-promo-still.webp" width="480" height="480" alt="바다 가두리 낚시터"><span class="go">플레이</span></a>
+              <h3>바다 가두리 낚시터</h3><p>방치형 낚시 타이쿤</p>
+            </article>
+            <article class="game" data-cats="tycoon">
+              <a class="shot" href="https://airport-rookie.onrender.com/" target="_blank" rel="noopener"><img class="px" src="assets/airport-still.webp" width="440" height="440" alt="신입사원 공항 키우기"><span class="go">플레이</span></a>
+              <h3>신입사원 공항 키우기</h3><p>공항 경영 시뮬레이션</p>
+            </article>
+            <article class="game" id="soccer" data-cats="sports">
+              <div class="shot"><span class="badge soon">SOON</span><img src="assets/soccer-sq.webp" width="480" height="480" alt="축구 인생 N회차 경기 화면. 전반 36분 1 대 1"></div>
+              <h3>축구 인생 N회차</h3><p>무명에서 전설까지, 운명은 랜덤</p>
+            </article>
+            <article class="game" id="mole" data-cats="arcade">
+              <a class="shot" href="https://chaechaechae99.github.io/whack-a-mole/" target="_blank" rel="noopener"><img src="assets/mole-sq.webp" width="400" height="400" alt="두더지 잡기 게임 화면. 가운데 구멍에서 메롱 두더지가 혀를 내밀고 있다"><span class="go">플레이</span></a>
+              <h3>두더지 잡기</h3><p>30초 동안 황금 두더지를 노려라</p>
+            </article>
+          </div>
+        </section>
       </div>
 
       <section class="box" id="board-view" aria-labelledby="board-title" hidden>
         <h2 id="board-title">커뮤니티</h2>
-        <div class="in board">
-          <div class="board-bar">
-            <div class="heads" role="group" aria-label="말머리">
-              <button type="button" id="head-all" data-head="all" aria-pressed="true">전체</button>
-              <button type="button" id="head-review" data-head="후기" aria-pressed="false">후기</button>
-              <button type="button" id="head-tip" data-head="공략" aria-pressed="false">공략</button>
-              <button type="button" id="head-bug" data-head="버그" aria-pressed="false">버그</button>
-              <button type="button" id="head-idea" data-head="아이디어" aria-pressed="false">아이디어</button>
-            </div>
-            <label class="sort" for="sort">정렬
-              <select id="sort"><option value="new">최신순</option><option value="hot">추천순</option></select>
-            </label>
-            <button type="button" id="write-toggle" class="write-btn" aria-expanded="false" aria-controls="post-form">글쓰기</button>
-          </div>
-
-          <form id="post-form" class="post-form" novalidate hidden>
-            <div class="row2">
-              <label for="f-name">닉네임<input id="f-name" name="name" maxlength="10" autocomplete="nickname" placeholder="2~10자"></label>
-              <label for="f-game">게임<select id="f-game" name="game">
-                <option value="">고르세요</option>
-                <option>바다 가두리 낚시터</option><option>신입사원 공항 키우기</option>
-                <option>축구 인생 N회차</option><option>두더지 잡기</option><option>기타</option>
-              </select></label>
-              <label for="f-head">말머리<select id="f-head" name="head">
-                <option>후기</option><option>공략</option><option>버그</option><option>아이디어</option>
-              </select></label>
-            </div>
-            <label for="f-title">제목<input id="f-title" name="title" maxlength="40" placeholder="2~40자"></label>
-            <label for="f-body">내용<textarea id="f-body" name="body" maxlength="500" placeholder="10~500자"></textarea></label>
-            <div class="form-foot">
-              <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
-              <button type="submit" class="write-btn">등록</button>
-            </div>
-          </form>
-
-          <ol id="post-list" class="post-list"></ol>
-          <p id="board-empty" class="board-empty" hidden>아직 글이 없어요. 첫 글을 남겨보세요.</p>
+        <div class="coming">
+          <svg viewBox="0 0 60 26" aria-hidden="true">
+            <rect x="0" y="23" width="60" height="1" fill="var(--bar)"/>
+            <g fill="var(--bar)"><rect x="3" y="24" width="2" height="2"/><rect x="13" y="24" width="2" height="2"/><rect x="23" y="24" width="2" height="2"/><rect x="33" y="24" width="2" height="2"/><rect x="43" y="24" width="2" height="2"/><rect x="53" y="24" width="2" height="2"/></g>
+            <rect x="4" y="12" width="16" height="9" fill="var(--bar)"/><rect x="6" y="14" width="4" height="3" fill="var(--bg)"/><rect x="13" y="14" width="4" height="3" fill="var(--bg)"/>
+            <rect x="20" y="16" width="3" height="1" fill="var(--fg)"/>
+            <rect x="23" y="12" width="16" height="9" fill="var(--fg)"/><rect x="25" y="14" width="4" height="3" fill="var(--bg)"/><rect x="32" y="14" width="4" height="3" fill="var(--bg)"/>
+            <rect x="39" y="16" width="3" height="1" fill="var(--fg)"/>
+            <rect x="42" y="10" width="9" height="11" fill="var(--fg)"/><rect x="44" y="12" width="4" height="3" fill="var(--bg)"/><rect x="51" y="14" width="6" height="7" fill="var(--fg)"/><rect x="53" y="8" width="2" height="6" fill="var(--fg)"/><rect x="57" y="16" width="1" height="2" fill="#ffd84d"/>
+            <g fill="var(--muted)"><rect x="7" y="21" width="3" height="2"/><rect x="14" y="21" width="3" height="2"/><rect x="26" y="21" width="3" height="2"/><rect x="33" y="21" width="3" height="2"/><rect x="44" y="21" width="3" height="2"/><rect x="52" y="21" width="3" height="2"/></g>
+          </svg>
+          <strong>COMING SOON</strong>
+          <p>게시판은 다음 역에서 만나요.</p>
+          <ul aria-label="준비 중인 게시판"><li>후기</li><li>공략</li><li>버그 제보</li><li>다음 게임 아이디어</li></ul>
         </div>
       </section>
     </main>
@@ -251,10 +249,9 @@ select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); b
         <li><time datetime="2026-10-21">10.21</time>바다 가두리 낚시터 업데이트</li>
         <li><time datetime="2026-10-21">10.21</time>축구 인생 N회차 준비 중</li>
       </ul></div></section>
-      <section class="box"><h2>HOT 게시물</h2><div class="in">
-        <ol id="hot-list" class="hot-list"></ol>
-        <p id="hot-empty" class="hot-empty">추천을 많이 받은 글이 여기 올라와요.</p>
-        <p class="prep"><span>준비 중</span></p>
+      <section class="box"><h2>HOT 게시물</h2><div class="in soon-box">
+        <p>추천을 많이 받은 글이 여기 올라와요.</p>
+        <span class="soon-tag">COMING SOON</span>
       </div></section>
     </aside>
   </div>
@@ -262,13 +259,24 @@ select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); b
     <span>CHAE STATION</span>
     <span>만든 사람 : 채웅</span>
     <a href="https://github.com/chaechaechae99" target="_blank" rel="noopener">GitHub</a>
+    <div class="share-site">
+      <button type="button" class="icon-btn" id="copy-site"><svg aria-hidden="true"><use href="#i-link"/></svg>링크 복사</button>
+      <button type="button" class="icon-btn share" id="share-site" data-title="CHAE STATION"><svg aria-hidden="true"><use href="#i-share"/></svg>공유하기</button>
+    </div>
   </footer>
 </div>
+<p class="toast" id="toast" role="status" aria-live="polite"></p>
 
 <script>
 (() => {
+  const $ = id => document.getElementById(id);
   const root = document.documentElement;
-  const themeBtn = document.getElementById("theme");
+  const SITE = "https://chaechaechae99.github.io/chae-station/";
+  const get = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+  const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+
+  // 다크모드
+  const themeBtn = $("theme");
   const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   const label = () => { themeBtn.textContent = isDark() ? "라이트모드" : "다크모드"; };
   label();
@@ -278,15 +286,12 @@ select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); b
     label();
   });
 
-  const $ = id => document.getElementById(id);
+  // 장르 탭 + 커뮤니티(COMING SOON)
   const tabs = [...document.querySelectorAll(".cats button")];
-  const gamesView = $("games-view"), boardView = $("board-view");
-
-  // 장르 탭: 누른 장르에 맞는 게임만 보여줍니다. 커뮤니티 탭은 게시판을 엽니다.
   function showView(view, cat) {
     tabs.forEach(b => b.setAttribute("aria-pressed", String(view === "community" ? b.dataset.view === "community" : b.dataset.cat === cat)));
-    gamesView.hidden = view === "community";
-    boardView.hidden = view !== "community";
+    $("games-view").hidden = view === "community";
+    $("board-view").hidden = view !== "community";
     if (view !== "community") {
       document.querySelectorAll("[data-cats]").forEach(g => {
         g.toggleAttribute("data-hide", !(cat === "all" || g.dataset.cats.split(" ").includes(cat)));
@@ -298,153 +303,68 @@ select, input, textarea { font:inherit; color:var(--fg); background:var(--bg); b
     else { showView("games", btn.dataset.cat); history.replaceState(null, "", location.pathname); }
   }));
 
-  /* ── 게시판 저장소 ──────────────────────────────
-     지금은 이 브라우저(localStorage)에만 저장합니다.
-     나중에 서버를 붙이면 이 store 객체만 서버 요청으로 바꾸면 됩니다. */
-  const KEY = "chae-station-posts", MINE = "chae-station-mine", LIKED = "chae-station-liked";
-  const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
-  const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
-  const store = {
-    list: () => read(KEY, []),
-    add(post) { const all = store.list(); all.push(post); write(KEY, all); write(MINE, [...read(MINE, []), post.id]); },
-    like(id) {
-      const liked = read(LIKED, []), all = store.list(), p = all.find(x => x.id === id);
-      if (!p) return;
-      if (liked.includes(id)) { p.likes = Math.max(0, p.likes - 1); write(LIKED, liked.filter(x => x !== id)); }
-      else { p.likes += 1; write(LIKED, [...liked, id]); }
-      write(KEY, all);
-    },
-    remove(id) { write(KEY, store.list().filter(x => x.id !== id)); },
-    isMine: id => read(MINE, []).includes(id),
-    isLiked: id => read(LIKED, []).includes(id),
-  };
+  // 알림
+  let toastTimer;
+  const toast = msg => { const t = $("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("on"), 2200); };
 
-  const HOT_MIN = 3;   // 추천 3개 이상이면 HOT 표시
-  const ago = t => {
-    const m = Math.floor((Date.now() - t) / 60000);
-    if (m < 1) return "방금";
-    if (m < 60) return m + "분 전";
-    if (m < 1440) return Math.floor(m / 60) + "시간 전";
-    const d = new Date(t);
-    return String(d.getMonth() + 1).padStart(2, "0") + "." + String(d.getDate()).padStart(2, "0");
-  };
-  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-
-  let head = "all", openId = null;
-  function renderBoard() {
-    const all = store.list();
-    $("post-count").textContent = all.length;
-    const posts = all.filter(p => head === "all" || p.head === head);
-    posts.sort($("sort").value === "hot" ? (a, b) => b.likes - a.likes || b.time - a.time : (a, b) => b.time - a.time);
-    const list = $("post-list");
-    list.replaceChildren();
-    $("board-empty").hidden = posts.length > 0;
-    posts.forEach(p => {
-      const li = el("li", "post");
-      li.id = "post-" + p.id;
-      const btn = el("button", "post-head");
-      btn.type = "button";
-      btn.setAttribute("aria-expanded", String(openId === p.id));
-      const title = el("span", "post-title");
-      if (p.likes >= HOT_MIN) title.append(el("span", "hot", "HOT"));
-      title.append(p.title);
-      btn.append(el("span", "tagh", "[" + p.head + "]"), title, el("span", "likes", "추천 " + p.likes),
-        el("span", "post-meta", p.game + " · " + p.name + " · " + ago(p.time)));
-      btn.addEventListener("click", () => { openId = openId === p.id ? null : p.id; renderBoard(); });
-      li.append(btn);
-      if (openId === p.id) {
-        const body = el("div", "post-body");
-        body.append(el("p", "", p.body));
-        const acts = el("div", "post-actions");
-        const liked = store.isLiked(p.id);
-        const likeBtn = el("button", liked ? "liked" : "", (liked ? "추천 취소 " : "추천 ") + p.likes);
-        likeBtn.type = "button";
-        likeBtn.addEventListener("click", () => { store.like(p.id); renderAll(); });
-        acts.append(likeBtn);
-        if (store.isMine(p.id)) {
-          const del = el("button", "", "삭제");
-          del.type = "button";
-          del.addEventListener("click", () => {
-            if (del.dataset.confirm) { store.remove(p.id); openId = null; renderAll(); }
-            else { del.dataset.confirm = "1"; del.textContent = "한 번 더 누르면 삭제"; }
-          });
-          acts.append(del);
-        }
-        body.append(acts);
-        li.append(body);
-      }
-      list.append(li);
-    });
-  }
-  function renderHot() {
-    const hot = store.list().filter(p => p.likes > 0).sort((a, b) => b.likes - a.likes || b.time - a.time).slice(0, 5);
-    const ol = $("hot-list");
-    ol.replaceChildren();
-    $("hot-empty").hidden = hot.length > 0;
-    hot.forEach(p => {
-      const li = el("li"), b = el("button"), t = el("span");
-      b.type = "button";
-      if (p.likes >= HOT_MIN) t.append(el("b", "hot", "HOT"));
-      t.append(p.title);
-      b.append(t, el("small", "", "+" + p.likes));
-      b.addEventListener("click", () => {
-        openId = p.id; showView("community"); renderBoard();
-        const row = $("post-" + p.id);
-        if (row) window.scrollTo({ top: row.getBoundingClientRect().top + scrollY - 80 });
-      });
-      li.append(b);
-      ol.append(li);
-    });
-  }
-  const renderAll = () => { renderBoard(); renderHot(); };
-
-  document.querySelectorAll("[data-head]").forEach(b => b.addEventListener("click", () => {
-    head = b.dataset.head;
-    document.querySelectorAll("[data-head]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
-    renderBoard();
-  }));
-  $("sort").addEventListener("change", renderBoard);
-  $("write-toggle").addEventListener("click", () => {
-    const f = $("post-form");
-    f.hidden = !f.hidden;
-    $("write-toggle").setAttribute("aria-expanded", String(!f.hidden));
-    if (!f.hidden) $("f-name").focus();
-  });
-
-  // 글쓰기 입력 검사: 틀린 칸을 빨갛게 표시하고 첫 번째 틀린 칸으로 이동합니다.
-  const rules = [
-    ["f-name", v => v.length >= 2 && v.length <= 10, "닉네임은 2~10자로 적어 주세요."],
-    ["f-game", v => v !== "", "어떤 게임 이야기인지 골라 주세요."],
-    ["f-title", v => v.length >= 2 && v.length <= 40, "제목은 2~40자로 적어 주세요."],
-    ["f-body", v => v.length >= 10 && v.length <= 500, "내용은 10자 이상 적어 주세요."],
-  ];
-  $("post-form").addEventListener("submit", e => {
-    e.preventDefault();
-    const status = $("form-status");
-    let first = null;
-    for (const [id, ok, msg] of rules) {
-      const input = $(id), good = ok(input.value.trim());
-      input.setAttribute("aria-invalid", String(!good));
-      if (!good && !first) first = [input, msg];
+  /* 찜(하트)
+     서버가 없어서 모두의 좋아요 수는 아직 셀 수 없습니다. 지금은 내 찜만 이 브라우저에 저장하고,
+     서버를 붙이면 SHOW_COUNTS를 true로 바꾸고 counts를 서버 값으로 채웁니다. */
+  const SHOW_COUNTS = false, counts = {};
+  const hearts = new Set(get("chae-station-hearts", []));
+  function paintHeart(btn) {
+    const on = hearts.has(btn.dataset.game);
+    btn.setAttribute("aria-pressed", String(on));
+    btn.querySelector(".label").textContent = on ? "찜했어요" : "찜";
+    if (SHOW_COUNTS) {
+      let c = btn.querySelector(".count");
+      if (!c) { c = document.createElement("span"); c.className = "count"; btn.append(c); }
+      c.textContent = counts[btn.dataset.game] ?? 0;
     }
-    if (first) { status.className = "form-status err"; status.textContent = first[1]; first[0].focus(); return; }
-    const post = {
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      name: $("f-name").value.trim(), game: $("f-game").value, head: $("f-head").value,
-      title: $("f-title").value.trim(), body: $("f-body").value.trim(), likes: 0, time: Date.now(),
-    };
-    store.add(post);
-    ["f-title", "f-body"].forEach(id => { $(id).value = ""; });
-    status.className = "form-status";
-    status.textContent = "등록했어요.";
-    openId = post.id;
-    head = "all";
-    document.querySelectorAll("[data-head]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.head === "all")));
-    renderAll();
+  }
+  document.querySelectorAll(".heart").forEach(btn => {
+    paintHeart(btn);
+    btn.addEventListener("click", () => {
+      const g = btn.dataset.game;
+      hearts.has(g) ? hearts.delete(g) : hearts.add(g);
+      set("chae-station-hearts", [...hearts]);
+      paintHeart(btn);
+      btn.classList.remove("pop"); void btn.offsetWidth; btn.classList.add("pop");
+      toast(hearts.has(g) ? "찜했어요. 다음에 들어와도 표시돼요." : "찜을 풀었어요.");
+    });
   });
 
-  renderAll();
-  if (location.hash === "#community") showView("community");
+  // 공유: 휴대폰은 기본 공유창(카카오톡 등), 컴퓨터는 링크 복사
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); return true; }
+    catch {
+      const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.append(ta); ta.select();
+      let ok = false; try { ok = document.execCommand("copy"); } catch {}
+      ta.remove(); return ok;
+    }
+  }
+  async function share(title, url) {
+    if (navigator.share) {
+      try { await navigator.share({ title, text: title + " · CHAE STATION", url }); return; }
+      catch (e) { if (e && e.name === "AbortError") return; }
+    }
+    toast(await copy(url) ? "링크를 복사했어요. 카카오톡에 붙여넣기 하세요." : "복사가 안 됐어요. 주소창의 주소를 복사해 주세요.");
+  }
+  document.querySelectorAll(".share").forEach(btn => btn.addEventListener("click", () => {
+    share(btn.dataset.title, btn.dataset.game ? SITE + "#" + btn.dataset.game : SITE);
+  }));
+  $("copy-site").addEventListener("click", async () => {
+    toast(await copy(SITE) ? "링크를 복사했어요." : "복사가 안 됐어요. 주소창의 주소를 복사해 주세요.");
+  });
+
+  // 공유받은 링크(#seafarm 등)로 들어오면 그 게임 카드로 이동해서 잠깐 표시
+  const h = location.hash.slice(1);
+  if (h === "community") showView("community");
+  else if (h && $(h) && $(h).classList.contains("game")) {
+    const card = $(h);
+    setTimeout(() => { window.scrollTo({ top: card.getBoundingClientRect().top + scrollY - 16 }); card.classList.add("flash"); setTimeout(() => card.classList.remove("flash"), 1800); }, 150);
+  }
 })();
 </script>
 </body>
